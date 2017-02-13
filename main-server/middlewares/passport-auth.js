@@ -1,3 +1,5 @@
+'use strict';
+
 var passport = require('passport'),
     userModel = require('../models/user'),
     DigestStrategy = require('passport-http').DigestStrategy,

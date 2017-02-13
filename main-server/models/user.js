@@ -1,3 +1,5 @@
+'use strict';
+
 var users = require('../json/users.json');
 
 var findByUsername = function (username, cb) {
