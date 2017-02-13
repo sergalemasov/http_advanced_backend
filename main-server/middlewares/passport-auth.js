@@ -15,7 +15,8 @@ passport.use(new BasicStrategy(
   }
 ));
 
-passport.use(new DigestStrategy({ qop: 'auth' },
+passport.use(new DigestStrategy(
+  { qop: 'auth' },
   function(username, cb) {
     userModel.findByUsername(username, function(err, user) {
       if (err) { return cb(err); }

@@ -3,3 +3,7 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  a(href='/auth/basic')
+    p Basic auth
+  a(href='/auth/digest')
+    p Digest auth

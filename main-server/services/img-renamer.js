@@ -13,6 +13,10 @@ _proto.start = function () {
 
 _proto.rename = function() {
 
-}
+};
+
+_proto.stop = function () {
+
+};
 
 _proto.imgList = ['1.jpg'];
