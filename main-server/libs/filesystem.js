@@ -24,7 +24,11 @@ module.exports = {
     var promise = new Promise(function(resolve, reject) {
       fs.unlink(filepath, function (err) {
         if (err) {
-          reject(err);          
+          if (err.code !== "ENOENT") {
+            reject(err);
+          } else {
+            resolve(false);
+          }         
         } else {
           resolve(filepath);
         }

@@ -6,19 +6,19 @@ var router = express.Router();
 var imgRenamer = require('../services/img-renamer');
 
 
-router.post(
+router.get(
   '/img-renamer/start',
   function(req, res, next) {
     imgRenamer.start();
-    res.code(200);
+    res.sendStatus(200);
   }
 );
 
-router.post(
+router.get(
   '/img-renamer/stop',
   function(req, res, next) {
     imgRenamer.stop();
-    res.code(200);
+    res.sendStatus(200);
   }
 );
 
@@ -34,7 +34,7 @@ router.get(
         res.json(responseData);
       })
       .catch(function (err) {
-        res.code(500);
+        res.sendStatus(500);
       });
   }
 );

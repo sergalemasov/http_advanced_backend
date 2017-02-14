@@ -1,20 +1,20 @@
 'use strict';
 
-var path = require('path');
+var path = require('path'),
+    filesystem = require('../libs/filesystem');
 
-var ABS_ROOT = path.dirname(__dirname);
-
-var BASE_IMG_FOLDER = path.join('public', 'img', 'renaming');
-var IMG_FOLDERS = ['a', 'b', 'c'].map(function (dirName) {
-  return path.join(BASE_IMG_FOLDER, dirName);
-});
-
-var ABS_BASE_IMG_FOLDER = path.join(ABS_ROOT, BASE_IMG_FOLDER);
-var ABS_IMG_FOLDERS = ['a', 'b', 'c'].map(function (dirName) {
-  return path.join(ABS_BASE_IMG_FOLDER, dirName);
-});
-
-var filesystem = require('../libs/filesystem');
+var ABS_ROOT = path.dirname(__dirname),
+    BASE_IMG_FOLDER = path.join('public', 'img', 'renaming'),
+    IMG_FOLDER_NAMES = ['a', 'b', 'c'],
+    IMG_FOLDERS = IMG_FOLDER_NAMES.map(function (dirName) {
+      return path.join(BASE_IMG_FOLDER, dirName);
+    }),
+    ABS_BASE_IMG_FOLDER = path.join(ABS_ROOT, BASE_IMG_FOLDER),
+    ABS_IMG_FOLDERS = IMG_FOLDER_NAMES.map(function (dirName) {
+      return path.join(ABS_BASE_IMG_FOLDER, dirName);
+    }),
+    CURRENT_IMG_FILE = 'current.png',
+    TEMP_IMG_FILE = 'temp.png';
 
 var IMG_FILES = [
   "abra.png",
@@ -23,7 +23,7 @@ var IMG_FILES = [
   "eevee.png",
   "mankey.png",
   "mew.png",
-  "pikachu-2.png",
+  "pikachu.png",
   "rattata.png",
   "squirtle.png",
   "weedle.png",
@@ -39,9 +39,6 @@ var IMG_FILES = [
   "zubat.png"
 ];
 
-var CURRENT_IMG_FILE = 'current.png';
-var TEMP_IMG_FILE = 'temp.png';
-
 var ImgRenamer = function () {
   this.state = this.STATES.OFF;
   this.ioResolves = [];
@@ -50,18 +47,36 @@ var ImgRenamer = function () {
 
 var _proto = ImgRenamer.prototype;
 
-_proto.start = function () {
-  this.state = this.STATES.IO;
-  this._clearOldFiles()
-    .then(function() {
-      this.state = this.STATES.ON;
-      this._swapLoop();
-    }.bind(this))
-    .catch(function(err) {
-      console.log('Error:', err);
-      this._rejectPendingPromises(err);
-      this.stop();
-    }.bind(this));
+_proto.clearOldFiles = function () {
+  var checkList = [];
+  ABS_IMG_FOLDERS.forEach(function(folder) {
+    checkList.push(path.join(folder, CURRENT_IMG_FILE));
+    checkList.push(path.join(folder, TEMP_IMG_FILE));
+  });
+
+  return Promise.all(
+    checkList.map(function (filePath) {
+      var promise = new Promise(function(resolve, reject) {
+        filesystem.fileExist(filePath)
+          .then(function(exist) {
+            if (exist) {
+              return filesystem.removeFile(filePath)
+            }
+          })
+          .then(function (res) {
+            if (typeof(res) === 'string' && 
+                res.indexOf(ABS_BASE_IMG_FOLDER) > -1) 
+            {
+              console.log('deleted:', res);
+            }
+            resolve(res);
+          })
+          .catch(function(err) {
+            reject(err);
+          })
+      });
+    })
+  );
 };
 
 _proto.IOwait = function () {
@@ -83,6 +98,24 @@ _proto.getImgUrls = function () {
   });
 }
 
+_proto.start = function () {
+  this.state = this.STATES.IO;
+  this.clearOldFiles()
+    .then(function() {
+      this.state = this.STATES.ON;
+      this._swapLoop();
+    }.bind(this))
+    .catch(function(err) {
+      console.log('Error:', err);
+      this._rejectPendingPromises(err);
+      this.stop();
+    }.bind(this));
+};
+
+_proto.stop = function () {
+  this.state = this.STATES.OFF;
+};
+
 _proto._resolvePendingPromises = function () {
   var resolvesLen = this.ioResolves.length;
   if (resolvesLen) {
@@ -101,10 +134,6 @@ _proto._rejectPendingPromises = function (err) {
     });
     this.ioRejects = [];
   }
-};
-
-_proto.stop = function () {
-  this.state = this.STATES.OFF;
 };
 
 _proto._swapLoop = function () {
@@ -142,53 +171,21 @@ _proto._swapCurrentFile = function() {
           .then(function() {
             return filesystem.copyFile(randomFilePath, currentFilePath);
           })
-          then(function () {
+          .then(function () {
             this.state = this.STATES.ON;
             resolve();
-          })
+          }.bind(this))
           .catch(function(err) {
             reject(err);
           });
-      });
+      }.bind(this));
       return promise;  
-    })
+    }.bind(this))
   );  
 };
 
 _proto._getRandomFilename = function () {
   return IMG_FILES[Math.floor(Math.random() * IMG_FILES.length)];
-};
-
-_proto._clearOldFiles = function () {
-  var checkList = [];
-  ABS_IMG_FOLDERS.forEach(function(folder) {
-    checkList.push(path.join(folder, CURRENT_IMG_FILE));
-    checkList.push(path.join(folder, TEMP_IMG_FILE));
-  });
-
-  return Promise.all(
-    checkList.map(function (filePath) {
-      var promise = new Promise(function(resolve, reject) {
-        filesystem.fileExist(filePath)
-          .then(function(exist) {
-            if (exist) {
-              return filesystem.removeFile(filePath)
-            }
-          })
-          .then(function (res) {
-            if (typeof(res) === 'string' && 
-                res.indexOf(ABS_BASE_IMG_FOLDER) > -1) 
-            {
-              console.log('deleted:', res);
-            }
-            resolve(res);
-          })
-          .catch(function(err) {
-            reject(err);
-          })
-      });
-    })
-  );
 };
 
 _proto.STATES = Object.freeze({
