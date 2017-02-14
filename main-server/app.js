@@ -9,8 +9,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var auth = require('./routes/auth');
-
-var imgRenamer = require('./services/img-renamer');
+var rest = require('./routes/rest');
 
 var app = express();
 
@@ -28,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public'), {etag: false}));
 
 app.use('/', index);
 app.use('/auth', auth);
+app.use('/api', rest);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
