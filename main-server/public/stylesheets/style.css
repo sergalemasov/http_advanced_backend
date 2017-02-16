@@ -6,3 +6,25 @@ body {
 a {
   color: #00B7FF;
 }
+
+.hab-img-changer__img-container {
+  padding: 20px;
+}
+
+.hab-img-changer__arrow {
+  visibility: hidden;
+  width: 120px;
+  height: auto;
+}
+
+.hab-img-changer__arrow--visible {
+  visibility: visible;
+}
+
+.hab-img-changer__img-a,
+.hab-img-changer__img-b,
+.hab-img-changer__img-c {
+  width: 120px;
+  height: auto;
+  padding: 10px;
+}

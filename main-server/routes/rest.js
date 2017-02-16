@@ -3,39 +3,51 @@
 var express = require('express');
 var router = express.Router();
 
-var imgRenamer = require('../services/img-renamer');
+var imgChanger = require('../services/img-changer');
 
-
-router.get(
-  '/img-renamer/start',
+router.post(
+  '/img-changer/start',
   function(req, res, next) {
-    imgRenamer.start();
+    imgChanger.start();
+    res.sendStatus(200);
+  }
+);
+
+router.post(
+  '/img-changer/stop',
+  function(req, res, next) {
+    imgChanger.stop();
     res.sendStatus(200);
   }
 );
 
 router.get(
-  '/img-renamer/stop',
-  function(req, res, next) {
-    imgRenamer.stop();
-    res.sendStatus(200);
-  }
-);
-
-router.get(
-  '/img-renamer/img-url',
+  '/img-changer/img-url-a',
   function(req, res, next) {
     var responseData;
-    imgRenamer.IOwait()
-      .then(function () {
-        responseData = {
-          imgUrls: imgRenamer.getImgUrls()
-        }
-        res.json(responseData);
-      })
-      .catch(function (err) {
-        res.sendStatus(500);
-      });
+    var url = imgChanger.getImgUrl();
+    res.setHeader('ETag', '686897696a7c876b7e');
+    res.json({imgUrl: url});
+  }
+);
+
+router.get(
+  '/img-changer/img-url-b',
+  function(req, res, next) {
+    var responseData;
+    var url = imgChanger.getImgUrl();
+    res.setHeader('Cache-Control', 'max-age=20');
+    res.json({imgUrl: url});
+  }
+);
+
+router.get(
+  '/img-changer/img-url-c',
+  function(req, res, next) {
+    var responseData;
+    var url = imgChanger.getImgUrl();
+    res.setHeader('Cache-Control', 'max-age=1');
+    res.json({imgUrl: url});
   }
 );
 

@@ -5,7 +5,7 @@ var fs = require('fs-extra');
 module.exports = {
   fileExist: function (filepath) {
     var promise = new Promise(function(resolve, reject) {
-      fs.access(filepath, fs.constants.F_OK, function (err) {
+      fs.open(filepath, 'r', function (err, fd) {
         if (err) {
           if (err.code === "ENOENT") {
             resolve(false);
@@ -28,7 +28,7 @@ module.exports = {
             reject(err);
           } else {
             resolve(false);
-          }         
+          }
         } else {
           resolve(filepath);
         }
@@ -41,7 +41,7 @@ module.exports = {
     var promise = new Promise(function(resolve, reject) {
       fs.copy(source, target, function (err) {
         if (err) {
-          reject(err);          
+          reject(err);
         } else {
           resolve(target);
         }
