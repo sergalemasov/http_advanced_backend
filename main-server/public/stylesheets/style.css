@@ -15,6 +15,7 @@ a {
   visibility: hidden;
   width: 120px;
   height: auto;
+  margin-right: -15px;
 }
 
 .hab-img-changer__arrow--visible {

@@ -51,4 +51,13 @@ router.get(
   }
 );
 
+router.get(
+  '/img-changer/poke-name',
+  function(req, res, next) {
+    var responseData;
+    var pokeName = imgChanger.getPokeName();
+    res.json({pokeName: pokeName});
+  }
+);
+
 module.exports = router;

@@ -30,6 +30,7 @@ var IMG_FILES = [
 var ImgChanger = function () {
   this.state = this.STATES.OFF;
   this.url = null;
+  this.pokeName = null;
   this.stopTimeoutId = null;
   this.swapTimeoutId = null;
 };
@@ -57,10 +58,16 @@ _proto.getImgUrl = function () {
   return this.url;
 }
 
-_proto._swapLoop = function () {
+_proto.getPokeName = function () {
+  return this.pokeName;
+};
 
+_proto._swapLoop = function () {
+  var filename;
   if (this.state !== this.STATES.OFF) {
-    this.url = path.join(IMG_FOLDER, this._getRandomFilename());
+    filename = this._getRandomFilename()
+    this.pokeName = filename.replace('.png', '').toUpperCase();
+    this.url = path.join(IMG_FOLDER, filename);
     this.swapTimeoutId = setTimeout(this._swapLoop.bind(this), this.SWAP_INTERVAL);
   }
 }

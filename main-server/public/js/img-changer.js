@@ -14,6 +14,7 @@
       .then(function () {
         this.intervalId = window.setInterval(function () {
           this.getImgUrls();
+          this.getPokeName();
         }.bind(this), 1000)
       }.bind(this))
       .catch(this.onError);
@@ -51,6 +52,14 @@
       .catch(this.onError);
   };
 
+  _proto.getPokeName = function () {
+    this.makeAjaxRequest('GET', 'api/img-changer/poke-name', undefined)
+      .then(function (data) {
+        this.updatePokeName(data.pokeName);
+      }.bind(this))
+      .catch(this.onError);
+  }
+
   _proto.makeAjaxRequest = function (method, url, data) {
     return $.ajax({ type: method, url: url, data: data });
   };
@@ -66,6 +75,10 @@
   _proto.updateImgC = function (imgUrl) {
     this.updateImgSrc('.hab-img-changer__img-' + 'c', imgUrl);
   }
+
+  _proto.updatePokeName = function (pokeName) {
+    $('.hab-img-changer__poke-name').html(pokeName);
+  };
 
   _proto.updateImgSrc = function (className, imgUrl) {
     $(className).attr('src', imgUrl + '?' + new Date().getTime());
