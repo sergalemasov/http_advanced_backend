@@ -20,4 +20,10 @@ router.get('/digest',
   }
 );
 
+router.get('/fb-oauth',
+  function(req, res, next) {
+    res.render('fb-oauth', {});
+  }
+);
+
 module.exports = router;
