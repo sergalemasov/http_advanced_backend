@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1 Facebook oauth
+  
+  a(href='/')
+    p Home
+
+  div(class="fb-login-button"
+      data-max-rows="1" 
+      data-size="xlarge" 
+      data-show-faces="false" 
+      data-auto-logout-link="false")
+
+block scripts
+  script(src='//connect.facebook.net/en_US/sdk.js')
+  script(src='../js/fb-oauth.js')
