@@ -2,7 +2,7 @@
 
 var utils = require('../utils/utils');
 
-function Digest (options) {
+function Digest () {
   this.nonceMap = {};
 }
 
@@ -16,7 +16,7 @@ _proto.config = function (options) {
   this.algorithm = options.algorithm === 'MD5-sess' && options.qop === 'auth' ? options.algorithm : 'MD5';
 }
 
-_proto.run = function (options) {
+_proto.run = function () {
   return function (req, res, next) {
     this._authenticate(req, function (result) {
       if (result.success) {
