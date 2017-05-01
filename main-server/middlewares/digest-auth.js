@@ -188,7 +188,6 @@ _proto._validateCredentials = function (method, clientOptions, password) {
       clientOptions.qop + ':' +
       ha2);
   } else {
-    console.log('here');
     response = utils.toMd5(ha1 + ':' + clientOptions.nonce + ':' + ha2);
   }
 

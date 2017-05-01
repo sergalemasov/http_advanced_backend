@@ -30,9 +30,11 @@ var IMG_FILES = [
 var ImgChanger = function () {
   this.state = this.STATES.OFF;
   this.url = null;
+  this.lastModifiedDate = new Date();
   this.pokeName = null;
   this.stopTimeoutId = null;
   this.swapTimeoutId = null;
+  this.lastModifiedTimeoutId = null;
 };
 
 var _proto = ImgChanger.prototype;
@@ -44,12 +46,14 @@ _proto.start = function () {
   this.state = this.STATES.ON;
   this.stopTimeoutId = setTimeout(this.stop.bind(this), this.STOP_TIMEOUT);
   this._swapLoop();
+  this._lastModifiedLoop();
 }
 
 _proto.stop = function () {
   this.state = this.STATES.OFF;
   clearTimeout(this.swapTimeoutId);
   clearTimeout(this.stopTimeoutId);
+  clearTimeout(this.lastModifiedTimeoutId);
 }
 
 _proto.getImgUrl = function () {
@@ -58,9 +62,20 @@ _proto.getImgUrl = function () {
   return this.url;
 }
 
+_proto.getLastModifiedDate = function () {
+  return this.lastModifiedDate;
+}
+
 _proto.getPokeName = function () {
   return this.pokeName;
 };
+
+_proto._lastModifiedLoop = function () {
+  if (this.state !== this.STATES.OFF) {
+    this.lastModifiedDate = new Date();
+    this.lastModifiedTimeoutId = setTimeout(this._lastModifiedLoop.bind(this), this.LAST_MODIFIED_INTERVAL);
+  }
+}
 
 _proto._swapLoop = function () {
   var filename;
@@ -83,6 +98,7 @@ _proto.STATES = Object.freeze({
 
 _proto.SWAP_INTERVAL = 5000;
 _proto.STOP_TIMEOUT = 5000;
+_proto.LAST_MODIFIED_INTERVAL = 30000;
 
 var imgChanger = new ImgChanger();
 

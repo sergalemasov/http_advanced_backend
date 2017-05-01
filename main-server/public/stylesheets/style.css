@@ -7,6 +7,10 @@ a {
   color: #00B7FF;
 }
 
+.hab-img-changer {
+  display: none;
+}
+
 .hab-img-changer__img-container {
   padding: 20px;
 }
@@ -22,10 +26,142 @@ a {
   visibility: visible;
 }
 
-.hab-img-changer__img-a,
-.hab-img-changer__img-b,
-.hab-img-changer__img-c {
+img[class^="hab-img-changer__img-"] {
   width: 120px;
   height: auto;
   padding: 10px;
+}
+
+.hab-img-changer__btn {
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  cursor: pointer;
+  border: 5px solid;
+  line-height: 90px;
+  text-align: center;
+  text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
+  font-weight:bold;
+  color: #FFFFFF;
+}
+
+.hab-img-changer__btn--start {
+  border-color: #34740e;
+  background-color: #4ba614; 
+  background-image: -webkit-linear-gradient(top, #4ba614, #008c00);
+  background-image: -moz-linear-gradient(top, #4ba614, #008c00);
+  background-image: -ms-linear-gradient(top, #4ba614, #008c00);
+  background-image: -o-linear-gradient(top, #4ba614, #008c00);
+  background-image: linear-gradient(to bottom, #4ba614, #008c00);
+}
+
+.hab-img-changer__btn--start:hover {
+  border-color: #224b09;
+  background-color: #36780f; 
+  background-image: -webkit-linear-gradient(top, #36780f, #005900);
+  background-image: -moz-linear-gradient(top, #36780f, #005900);
+  background-image: -ms-linear-gradient(top, #36780f, #005900);
+  background-image: -o-linear-gradient(top, #36780f, #005900);
+  background-image: linear-gradient(to bottom, #36780f, #005900);
+}
+
+.hab-img-changer__btn--start:active {
+  border-color: #224b09;
+  background-color: #36780f; 
+  background-image: -webkit-linear-gradient(bottom, #36780f, #005900);
+  background-image: -moz-linear-gradient(bottom, #36780f, #005900);
+  background-image: -ms-linear-gradient(bottom, #36780f, #005900);
+  background-image: -o-linear-gradient(bottom, #36780f, #005900);
+  background-image: linear-gradient(to top, #36780f, #005900);
+  transform: translateY(1px);
+}
+
+.hab-img-changer__btn--stop {
+  border-color: #ff6262;
+  background-color: #ff9a9a; 
+  background-image: -webkit-linear-gradient(top, #ff9a9a, #ff4040);
+  background-image: -moz-linear-gradient(top, #ff9a9a, #ff4040);
+  background-image: -ms-linear-gradient(top, #ff9a9a, #ff4040);
+  background-image: -o-linear-gradient(top, #ff9a9a, #ff4040);
+  background-image: linear-gradient(to bottom, #ff9a9a, #ff4040);
+}
+
+.hab-img-changer__btn--stop:hover {
+  border-color: #ff3434;
+  background-color: #ff6767;
+  background-image: -webkit-linear-gradient(top, #ff6767, #ff0d0d);
+  background-image: -moz-linear-gradient(top, #ff6767, #ff0d0d);
+  background-image: -ms-linear-gradient(top, #ff6767, #ff0d0d);
+  background-image: -o-linear-gradient(top, #ff6767, #ff0d0d);
+  background-image: linear-gradient(to bottom, #ff6767, #ff0d0d);
+}
+
+.hab-img-changer__btn--stop:active {
+  border-color: #ff3434;
+  background-color: #ff6767;
+  background-image: -webkit-linear-gradient(bottom, #ff6767, #ff0d0d);
+  background-image: -moz-linear-gradient(bottom, #ff6767, #ff0d0d);
+  background-image: -ms-linear-gradient(bottom, #ff6767, #ff0d0d);
+  background-image: -o-linear-gradient(bottom, #ff6767, #ff0d0d);
+  background-image: linear-gradient(to top, #ff6767, #ff0d0d);
+  transform: translateY(1px);
+}
+
+img[class^="hab-puzzle__piece"] {
+  width: 160px;
+  height: auto;
+}
+
+.hab-puzzle {
+  margin-top: 20px;
+}
+
+.hab-puzzle__btn {
+  margin-left: 160px;
+  width: 160px;
+  height: 160px;
+  border-radius: 100%;
+  cursor: pointer;
+  border: 5px solid;
+  text-align: center;
+  padding: 55px 0;
+  text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
+  font-weight:bold;
+  color: #FFFFFF;
+}
+
+.hab-puzzle__btn-ip,
+.hab-puzzle__btn-text {
+  line-height: 20px;
+}
+
+.hab-puzzle__btn {
+  border-color: #34740e;
+  background-color: #4ba614; 
+  background-image: -webkit-linear-gradient(top, #4ba614, #008c00);
+  background-image: -moz-linear-gradient(top, #4ba614, #008c00);
+  background-image: -ms-linear-gradient(top, #4ba614, #008c00);
+  background-image: -o-linear-gradient(top, #4ba614, #008c00);
+  background-image: linear-gradient(to bottom, #4ba614, #008c00);
+}
+
+.hab-puzzle__btn:hover {
+  border-color: #224b09;
+  background-color: #36780f; 
+  background-image: -webkit-linear-gradient(top, #36780f, #005900);
+  background-image: -moz-linear-gradient(top, #36780f, #005900);
+  background-image: -ms-linear-gradient(top, #36780f, #005900);
+  background-image: -o-linear-gradient(top, #36780f, #005900);
+  background-image: linear-gradient(to bottom, #36780f, #005900);
+}
+
+.hab-puzzle__btn:active {
+  border-color: #224b09;
+  background-color: #36780f; 
+  background-image: -webkit-linear-gradient(bottom, #36780f, #005900);
+  background-image: -moz-linear-gradient(bottom, #36780f, #005900);
+  background-image: -ms-linear-gradient(bottom, #36780f, #005900);
+  background-image: -o-linear-gradient(bottom, #36780f, #005900);
+  background-image: linear-gradient(to top, #36780f, #005900);
+  transform: translateY(1px);
 }

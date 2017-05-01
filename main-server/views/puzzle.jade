@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  a(href='/')
+    p Home
+
+  h1 PUZZLE, GET THE MONKEY
+  div(class='hab-puzzle__btn hab-puzzle__btn--get')
+    div(class='hab-puzzle__btn-text') MAKE FROM
+    div(class='hab-puzzle__btn-ip') #{server}
+  div(class='hab-puzzle')
+    div(class='hab-puzzle__row')
+      img(class='hab-puzzle__piece1' src='img/monkey/tile.jpg')
+      img(class='hab-puzzle__piece2' src='img/monkey/tile.jpg') 
+      img(class='hab-puzzle__piece3' src='img/monkey/tile.jpg')
+    div(class='hab-puzzle__row')
+      img(class='hab-puzzle__piece4' src='img/monkey/tile.jpg')
+      img(class='hab-puzzle__piece5' src='img/monkey/tile.jpg')
+      img(class='hab-puzzle__piece6' src='img/monkey/tile.jpg')
+    div(class='hab-puzzle__row')
+      img(class='hab-puzzle__piece7' src='img/monkey/tile.jpg')
+      img(class='hab-puzzle__piece8' src='img/monkey/tile.jpg')
+      img(class='hab-puzzle__piece9' src='img/monkey/tile.jpg')
+
+block scripts
+  script(src='js/puzzle.js')

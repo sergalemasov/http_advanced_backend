@@ -15,25 +15,25 @@ router.get('/basic',
   }
 );
 
-// router.get('/digest',
-//   [digestFix, passport.authenticate('digest', {'session': false})],
-//   function(req, res, next) {
-//     res.render('auth-success', { 'authType': 'Digest' });
-//   }
-// );
-
-digest.config({
-  realm: 'OLOLO',
-  qop: 'auth',
-  // algorithm: 'MD5-sess',
-  getUserHelper: function (username, cb) {
-    userModel.findByUsername(username, function(err, user) {
-      if (err) { return cb(err); }
-      if (!user) { return cb(null, false); }
-      return cb(null, user, user.password);
-    })
+router.get('/digest',
+  [digestFix, passport.authenticate('digest', {'session': false})],
+  function(req, res, next) {
+    res.render('auth-success', { 'authType': 'Digest' });
   }
-});
+);
+
+// digest.config({
+//   realm: 'OLOLO',
+//   qop: 'auth',
+//   // algorithm: 'MD5-sess',
+//   getUserHelper: function (username, cb) {
+//     userModel.findByUsername(username, function(err, user) {
+//       if (err) { return cb(err); }
+//       if (!user) { return cb(null, false); }
+//       return cb(null, user, user.password);
+//     })
+//   }
+// });
 
 router.get('/digest',
   digest.run(),

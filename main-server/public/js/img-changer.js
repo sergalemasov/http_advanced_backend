@@ -1,9 +1,11 @@
 (function ($) {
   function ImgChanger() {
-    this.intervalId = null;
     this.onError = this.onError.bind(this);
     this.startService = this.startService.bind(this);
     this.stopService = this.stopService.bind(this);
+    this.toggleBtn = this.toggleBtn.bind(this);
+    
+    this.intervalId = null;
     this.arrowShown = false;
   }
 
@@ -33,23 +35,13 @@
   };
 
   _proto.getImgUrls = function () {
-    this.makeAjaxRequest('GET', 'api/img-changer/img-url-a', undefined)
-      .then(function (data) {
-        this.updateImgA(data.imgUrl);
-      }.bind(this))
-      .catch(this.onError);
-
-    this.makeAjaxRequest('GET', 'api/img-changer/img-url-b', undefined)
-      .then(function (data) {
-        this.updateImgB(data.imgUrl);
-      }.bind(this))
-      .catch(this.onError);
-
-    this.makeAjaxRequest('GET', 'api/img-changer/img-url-c', undefined)
-      .then(function (data) {
-        this.updateImgC(data.imgUrl);
-      }.bind(this))
-      .catch(this.onError);
+    'abcde'.split('').forEach(function (letter) {
+      this.makeAjaxRequest('GET', 'api/img-changer/img-url-' + letter, undefined)
+        .then(function (data) {
+          this.updateImg(data.imgUrl, letter);
+        }.bind(this))
+        .catch(this.onError);
+    }.bind(this));
   };
 
   _proto.getPokeName = function () {
@@ -64,16 +56,8 @@
     return $.ajax({ type: method, url: url, data: data });
   };
 
-  _proto.updateImgA = function (imgUrl) {
-    this.updateImgSrc('.hab-img-changer__img-' + 'a', imgUrl);
-  }
-
-  _proto.updateImgB = function (imgUrl) {
-    this.updateImgSrc('.hab-img-changer__img-' + 'b', imgUrl);
-  }
-
-  _proto.updateImgC = function (imgUrl) {
-    this.updateImgSrc('.hab-img-changer__img-' + 'c', imgUrl);
+  _proto.updateImg = function (imgUrl, letter) {
+    this.updateImgSrc('.hab-img-changer__img-' + letter, imgUrl);
   }
 
   _proto.updatePokeName = function (pokeName) {
@@ -88,12 +72,36 @@
     }
   }
 
+  _proto.toggleBtn = function (event) {
+    var btn = $(event.target);
+    var imgChanger = $('.hab-img-changer');
+    var btnStartText = 'START';
+    var btnStopText = 'STOP';
+    var btnStartClass = 'hab-img-changer__btn--start';
+    var btnStopClass = 'hab-img-changer__btn--stop';
 
+    if (btn.html() === btnStartText) {
+      btn.html(btnStopText);
+      btn.removeClass(btnStartClass);
+      btn.addClass(btnStopClass);
+
+      this.startService();
+      imgChanger.show();
+    } else {
+      btn.html(btnStartText);
+      btn.addClass(btnStartClass);
+      btn.removeClass(btnStopClass);
+
+      this.stopService();
+      imgChanger.hide();
+    }
+  }
 
   $(document).ready(function() {
     var imgChanger = new ImgChanger();
-    imgChanger.startService();
-  });
 
+    var startBtn = $('.hab-img-changer__btn');
+    startBtn.on('click', imgChanger.toggleBtn);
+  });
 
 })(jQuery);

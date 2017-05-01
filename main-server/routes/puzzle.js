@@ -2,11 +2,12 @@
 
 var express = require('express');
 var router = express.Router();
+var ip = require('../services/get-ip');
 
 router.get(
   '/',
   function(req, res, next) {
-    res.render('img-changer', {letters: 'edcba'.split('')});
+    res.render('puzzle', {server: ip + ':3001'});
   }
 );
 

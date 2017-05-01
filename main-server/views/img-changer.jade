@@ -5,15 +5,13 @@ block content
     p Home
 
   h1 POKEMONS POKEPOKE
+  div(class='hab-img-changer__btn hab-img-changer__btn--start') START
   div(class='hab-img-changer')
     h3 All pokemons must be <span class='hab-img-changer__poke-name'>...</span>!
     div(class='hab-img-changer__img-container')
       img(class='hab-img-changer__arrow' src='img/arrow.png')
-      img(class='hab-img-changer__img-c')
-      img(class='hab-img-changer__img-b')
-      img(class='hab-img-changer__img-a')
-
-
+      each letter in letters
+        img(class='hab-img-changer__img-' + letter)
 
 block scripts
   script(src='js/img-changer.js')

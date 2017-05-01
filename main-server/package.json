@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "npm-run-all --parallel main cors",
+    "main": "node ./bin/www",
+    "cors": "node ./bin/www2"
   },
   "dependencies": {
     "basic-auth": "^1.1.0",
@@ -15,6 +17,7 @@
     "jade": "~1.11.0",
     "morgan": "~1.7.0",
     "nodemon": "^1.11.0",
+    "npm-run-all": "^4.0.2",
     "passport": "^0.3.2",
     "passport-http": "^0.3.0",
     "serve-favicon": "~2.3.2"
