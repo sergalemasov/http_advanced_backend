@@ -80,9 +80,25 @@ router.get(
   }
 );
 
+router.options('/auth/basic',
+  function(req, res, next) {
+    res.set({
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Authorization',
+      'Access-Control-Allow-Methods': 'GET HEAD OPTIONS'
+    });
+    res.sendStatus(200);
+  }
+);
+
 router.get('/auth/basic',
   passport.authenticate('basic', {'session': false}),
   function(req, res, next) {
+    res.set({
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Authorization',
+      'Access-Control-Allow-Methods': 'GET HEAD OPTIONS'
+    });
     res.json({
       'status':'success',
       'authType': 'Basic'
