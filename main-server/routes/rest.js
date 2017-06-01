@@ -106,9 +106,26 @@ router.get('/auth/basic',
   }
 );
 
+router.options('/auth/digest',
+  function(req, res, next) {
+    res.set({
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Authorization',
+      'Access-Control-Allow-Methods': 'GET HEAD OPTIONS'
+    });
+    res.sendStatus(200);
+  }
+);
+
+
 router.get('/auth/digest',
   [digestFix, passport.authenticate('digest', {'session': false})],
   function(req, res, next) {
+    res.set({
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Authorization',
+      'Access-Control-Allow-Methods': 'GET HEAD OPTIONS'
+    });
     res.json({
       'status':'success',
       'authType': 'Digest'
